@@ -31,6 +31,9 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
+            # Дозволяємо Гіту працювати з цією папкою
+            git config --global --add safe.directory /home/ubuntu/docker_compose_bot
+
             cd docker_compose_bot
             git pull origin main
             docker compose up -d --build
