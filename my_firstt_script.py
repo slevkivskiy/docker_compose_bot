@@ -34,7 +34,7 @@ async def process_dice(callback: types.CallbackQuery):
 
 @dp.callback_query(F.data == "show_info")
 async def process_info(callback: types.CallbackQuery):
-    await callback.answer("Я бот, написаний на Python + aiogram!", show_alert=True)
+    await callback.answer("Bot deployed via CD!", show_alert=True)
 
 # --- ЗАПУСК ---
 async def main():
