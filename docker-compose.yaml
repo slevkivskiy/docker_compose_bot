@@ -1,9 +1,9 @@
-version: '3.8'
-
 services:
   my-tg-bot:
     build: .
     container_name: devops-bot-container
     restart: always
+    env_file:
+      - .env 
     environment:
       - PYTHONUNBUFFERED=1

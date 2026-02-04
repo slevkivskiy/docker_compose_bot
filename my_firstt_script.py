@@ -1,10 +1,12 @@
+import os
 import asyncio
 import logging
 from aiogram import Bot, Dispatcher, types, F
 from aiogram.filters.command import Command
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-TOKEN = "ТУТ_БУВ_ТОКЕН"
+# os.getenv шукає змінну з такою назвою в системі
+TOKEN = os.getenv("BOT_TOKEN")
 logging.basicConfig(level=logging.INFO)
 bot = Bot(token=TOKEN)
 dp = Dispatcher()
