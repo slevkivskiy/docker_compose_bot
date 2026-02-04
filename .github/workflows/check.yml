@@ -1,0 +1,24 @@
+name: CI Check 🛡️
+
+# Коли запускати?
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+# Що робити?
+jobs:
+  build-image:
+    name: Build Docker Image
+    runs-on: ubuntu-latest  # Дайте мені віртуальну машину з Linux
+
+    steps:
+      # Крок 1: Скачати твій код з репозиторію
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Крок 2: Спробувати зібрати Docker-образ
+      # Якщо тут буде помилка - процес зупиниться і покаже червоний хрестик
+      - name: Build Docker Image
+        run: docker build -t test-bot-image .
