@@ -18,7 +18,7 @@ async def cmd_start(message: types.Message):
 
     b2 = InlineKeyboardButton(text="👤 Хто я?", callback_data="show_info")
 
-    b3 = InlineKeyboardButton(text="Мій GitHub 🐙", url="https://github.com/slevkivskiy)
+    b3 = InlineKeyboardButton(text="Мій GitHub 🐙", url="https://github.com/slevkivskiy")
 
     keyboard = InlineKeyboardMarkup(inline_keyboard=[
         [b1, b2],
