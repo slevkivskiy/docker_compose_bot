@@ -13,16 +13,26 @@ services:
     volumes:
       - redis_data:/data
 
-  # --- НОВА ЧАСТИНА ---
   portainer:
     image: portainer/portainer-ce:latest
     restart: always
-    ports:
-      - "9000:9000"  # Відкриваємо "двері" 9000
+    # ❌ МИ ПРИБРАЛИ СЕКЦІЮ ports! 
+    # Тепер порт 9000 недоступний ззовні.
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock # Даємо доступ до "серця" Докера
-      - portainer_data:/data # Щоб зберігати налаштування адмінки
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+
+  # --- НОВИЙ БОС ---
+  nginx:
+    image: nginx:latest
+    restart: always
+    ports:
+      - "80:80" # Відкриваємо стандартний порт інтернету
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro # Прокидаємо наш файл налаштувань
+    depends_on:
+      - portainer # Nginx має запускатися після того, як прокинеться Portainer
 
 volumes:
   redis_data:
-  portainer_data: # Не забудь додати цей вольюм!
+  portainer_data:
