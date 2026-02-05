@@ -14,7 +14,7 @@ dp = Dispatcher()
 @dp.message(Command("start"))
 async def cmd_start(message: types.Message):
 
-    b1 = InlineKeyboardButton(text="🎲 pipipupu, callback_data="throw_dice")
+    b1 = InlineKeyboardButton(text="🎲 pipipupu", callback_data="throw_dice")
 
     b2 = InlineKeyboardButton(text="👤 Хто я?", callback_data="show_info")
 
