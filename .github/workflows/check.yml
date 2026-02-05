@@ -27,8 +27,8 @@ jobs:
           ENV_FILE: ${{ secrets.ENV_FILE }}  # 1. Беремо секрет з GitHub
         with:
           host: ${{ secrets.EC2_HOST }}          # ⚠️ Перевір, чи твій секрет називається HOST чи EC2_HOST
-          username: ${{ secrets.USERNAME }}  # ⚠️ Зазвичай це "ubuntu"
-          key: ${{ secrets.KEY }}            # ⚠️ Твій SSH ключ
+          username: ubuntu  # ⚠️ Зазвичай це "ubuntu"
+          key: ${{ secrets.EC2_SSH_KEY }}            # ⚠️ Твій SSH ключ
           port: 22
           envs: ENV_FILE                     # 2. Передаємо змінну всередину SSH-сесії
           script: |
