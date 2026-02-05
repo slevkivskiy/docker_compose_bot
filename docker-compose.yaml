@@ -1,22 +1,28 @@
 services:
-  # Наш бот (Сервіс №1)
   my-tg-bot:
     build: .
     env_file:
       - .env
     restart: always
-    # Магія мережі: бот побачить redis по імені "redis_db"
     depends_on:
       - redis_db
 
-  # Наші мізки (Сервіс №2)
   redis_db:
-    image: redis:alpine
+    image: redis:5.0.1
     restart: always
-    # Щоб дані не зникли при перезапуску, ми робимо "сейв" на диск
     volumes:
       - redis_data:/data
 
-# Оголошуємо, що нам потрібне сховище (Volume)
+  # --- НОВА ЧАСТИНА ---
+  portainer:
+    image: portainer/portainer-ce:latest
+    restart: always
+    ports:
+      - "9000:9000"  # Відкриваємо "двері" 9000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock # Даємо доступ до "серця" Докера
+      - portainer_data:/data # Щоб зберігати налаштування адмінки
+
 volumes:
   redis_data:
+  portainer_data: # Не забудь додати цей вольюм!
