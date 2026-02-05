@@ -20,25 +20,31 @@ jobs:
     needs: build-image
     runs-on: ubuntu-latest
 
-    steps:
+steps:
       - name: Deploy using SSH
         uses: appleboy/ssh-action@v1.0.3
+        env:
+          ENV_FILE: ${{ secrets.ENV_FILE }}  # 1. Беремо секрет з GitHub
         with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ubuntu
-          key: ${{ secrets.EC2_SSH_KEY }}
+          host: ${{ secrets.EC2_HOST }}          # ⚠️ Перевір, чи твій секрет називається HOST чи EC2_HOST
+          username: ${{ secrets.USERNAME }}  # ⚠️ Зазвичай це "ubuntu"
+          key: ${{ secrets.KEY }}            # ⚠️ Твій SSH ключ
           port: 22
+          envs: ENV_FILE                     # 2. Передаємо змінну всередину SSH-сесії
           script: |
-            # 1. Лікуємо Git (довіряємо папці)
+            # Налаштування Git
             git config --global --add safe.directory /home/ubuntu/docker_compose_bot
             
             cd docker_compose_bot
             
-            # 2. ЖОРСТКЕ оновлення коду (видаляє ручні зміни на сервері)
+            # 🔥 3. ГОЛОВНА МАГІЯ: Створюємо файл .env із секрету
+            echo "$ENV_FILE" > .env
+            
+            # Оновлення коду
             git fetch origin
             git reset --hard origin/main
             
-            # 3. Перезбірка з нуля (як ми робили руками)
+            # Перезапуск (з білдом, щоб підхопити нові ліби, якщо є)
             docker compose down
             docker compose build --no-cache
             docker compose up -d
