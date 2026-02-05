@@ -1,9 +1,22 @@
 services:
+  # Наш бот (Сервіс №1)
   my-tg-bot:
     build: .
-    container_name: devops-bot-container
-    restart: always
     env_file:
-      - .env 
-    environment:
-      - PYTHONUNBUFFERED=1
+      - .env
+    restart: always
+    # Магія мережі: бот побачить redis по імені "redis_db"
+    depends_on:
+      - redis_db
+
+  # Наші мізки (Сервіс №2)
+  redis_db:
+    image: redis:alpine
+    restart: always
+    # Щоб дані не зникли при перезапуску, ми робимо "сейв" на диск
+    volumes:
+      - redis_data:/data
+
+# Оголошуємо, що нам потрібне сховище (Volume)
+volumes:
+  redis_data:
