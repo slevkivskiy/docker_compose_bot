@@ -14,11 +14,11 @@ dp = Dispatcher()
 @dp.message(Command("start"))
 async def cmd_start(message: types.Message):
 
-    b1 = InlineKeyboardButton(text="🎲 Кинути кубик", callback_data="throw_dice")
+    b1 = InlineKeyboardButton(text="🎲 pipipupu, callback_data="throw_dice")
 
     b2 = InlineKeyboardButton(text="👤 Хто я?", callback_data="show_info")
 
-    b3 = InlineKeyboardButton(text="Мій GitHub 🐙", url="https://github.com/slevkivskiy/bash_automation_tools")
+    b3 = InlineKeyboardButton(text="Мій GitHub 🐙", url="https://github.com/slevkivskiy)
 
     keyboard = InlineKeyboardMarkup(inline_keyboard=[
         [b1, b2],
