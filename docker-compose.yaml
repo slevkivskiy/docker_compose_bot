@@ -27,11 +27,13 @@ services:
     image: nginx:latest
     restart: always
     ports:
-      - "80:80" # Відкриваємо стандартний порт інтернету
+      - "80:80"
+      - "443:443"  # ✅ Відкриваємо захищений порт
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro # Прокидаємо наш файл налаштувань
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - /etc/letsencrypt:/etc/letsencrypt:ro  # ✅ Магія! Прокидаємо сертифікати всередину
     depends_on:
-      - portainer # Nginx має запускатися після того, як прокинеться Portainer
+      - portainer
 
 volumes:
   redis_data:
