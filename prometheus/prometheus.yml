@@ -1,0 +1,13 @@
+global:
+  scrape_interval: 15s # Збирати дані кожні 15 секунд
+
+scrape_configs:
+  # Завдання 1: Слідкувати за самим собою (для діагностики)
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # Завдання 2: Слідкувати за сервером (через шпигуна node-exporter)
+  - job_name: 'node_exporter'
+    static_configs:
+      - targets: ['node-exporter:9100']
