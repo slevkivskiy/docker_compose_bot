@@ -34,7 +34,44 @@ services:
       - /etc/letsencrypt:/etc/letsencrypt:ro  # ✅ Магія! Прокидаємо сертифікати всередину
     depends_on:
       - portainer
+  # --- МОНІТОРИНГ ---
+  
+  # 1. Шпигун (збирає метрики з заліза)
+  node-exporter:
+    image: prom/node-exporter:latest
+    restart: always
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command: 
+      - '--path.procfs=/host/proc' 
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)'
+
+  # 2. Мозок (зберігає метрики)
+  prometheus:
+    image: prom/prometheus:latest
+    restart: always
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    depends_on:
+      - node-exporter
+
+  # 3. Красиві картинки (Grafana)
+  grafana:
+    image: grafana/grafana:latest
+    restart: always
+    ports:
+      - "3000:3000" # Відкриваємо порт 3000 для входу
+    volumes:
+      - grafana_data:/var/lib/grafana # Щоб налаштування не зникали
+    depends_on:
+      - prometheus
 
 volumes:
   redis_data:
   portainer_data:
+  grafana_data:
