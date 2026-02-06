@@ -68,6 +68,9 @@ services:
       - "3000:3000" # Відкриваємо порт 3000 для входу
     volumes:
       - grafana_data:/var/lib/grafana # Щоб налаштування не зникали
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin123
     depends_on:
       - prometheus
 
